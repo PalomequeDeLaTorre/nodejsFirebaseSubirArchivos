@@ -1,5 +1,5 @@
 var conexion=require("./conexion").conexionUsuarios;
-var {encriptarPassword}=require("../funcionesPassword");
+var {encriptarPassword}=require("../middlewares/funcionesPassword");
 var Usuario=require("../modelos/Usuario");
 
 
@@ -57,8 +57,10 @@ async function nuevoUsuario(datos){
     try{
         var {salt, hash}=encriptarPassword(user.obtenerDatos.password); //Modificado
         console.log(hash);
-        user.obtenerDatos.password=hash;//Modificado
-        user.obtenerDatos.salt=salt;//Modificado
+
+        user.password=hash;//Modificado
+        user.salt=salt;//Modificado
+        
         user.obtenerDatos.salt=encriptarPassword(); //Modificado
         await conexion.doc().set(user.obtenerDatos);
         console.log("Usuario insertado a la BD");
