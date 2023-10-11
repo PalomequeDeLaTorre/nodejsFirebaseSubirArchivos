@@ -71,5 +71,5 @@ ruta.get("/borrar/:id", async (req, res) => {
     }
   });
 
-
+  
 module.exports=ruta;
