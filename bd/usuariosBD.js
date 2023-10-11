@@ -50,6 +50,10 @@ async function buscarPorID(id){
 }
 
 async function nuevoUsuario(datos){
+
+    var hash, salt = encriptarPassword(datos.password);
+    datos.password=hash;
+    datos.salt=salt;
     var user=new Usuario(null,datos);
     console.log(user);
     var error=1;
