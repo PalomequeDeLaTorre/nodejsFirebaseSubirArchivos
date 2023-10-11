@@ -1,5 +1,7 @@
 var conexion=require("./conexion").conexionUsuarios;
+var {encriptarPassword}=require("../middlewares/funcionesPassword");
 var Usuario=require("../modelos/Usuario");
+
 
 async function mostrarUsuarios(){
     var users=[];
@@ -48,11 +50,22 @@ async function buscarPorID(id){
 }
 
 async function nuevoUsuario(datos){
-    var user=new Usuario(null, datos);
+
+    var hash, salt = encriptarPassword(datos.password);
+    datos.password=hash;
+    datos.salt=salt;
+    var user=new Usuario(null,datos);
     console.log(user);
     var error=1;
     if (user.bandera === 0){
     try{
+        var {salt, hash}=encriptarPassword(user.obtenerDatos.password); //Modificado
+        console.log(hash);
+
+        user.password=hash;//Modificado
+        user.salt=salt;//Modificado
+        
+        user.obtenerDatos.salt=encriptarPassword(); //Modificado
         await conexion.doc().set(user.obtenerDatos);
         console.log("Usuario insertado a la BD");
         error=0;
