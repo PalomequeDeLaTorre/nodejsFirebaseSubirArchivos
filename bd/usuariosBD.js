@@ -1,7 +1,6 @@
 var conexion=require("./conexion").conexionUsuarios;
 var Usuario=require("../modelos/Usuario");
 
-
 async function mostrarUsuarios(){
     var users=[];
     try{
